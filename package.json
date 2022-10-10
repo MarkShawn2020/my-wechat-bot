@@ -1,0 +1,12 @@
+{
+  "name": "wechat-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "author": "markshawn2020 <shawninjuly@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
