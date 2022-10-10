@@ -1,4 +1,4 @@
-import {checkXgyqStatus, fetchXgyq} from "./xgyq/getData";
+import {checkXgyqStatus} from "../src/services/xgyq/getData";
 
 const main = async () => {
   console.log(await checkXgyqStatus({key: "江苏"}))

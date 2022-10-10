@@ -1,6 +1,6 @@
 import {IXgyqRes} from "./ds";
 import path from "path";
-import {CACHE_DIR} from "../general/path";
+import {CACHE_DIR} from "../../general/path";
 
 // todo: localCityNCOVDataList
 export const XGYQ_URL = 'https://api.inews.qq.com/newsqa/v1/query/inner/publish/modules/list?modules=diseaseh5Shelf'
