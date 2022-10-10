@@ -34,6 +34,10 @@ export const fetchXgyq = async (): Promise<IXgyqRes> => {
 export const checkXgyqStatus = async (props: { key: string }): Promise<string> => {
   const key = props.key.replace(/[\s-+省市区直辖]/, '').toLowerCase()
 
+  if(!key){
+    return '待查询省/市不得为空'
+  }
+
   const data = (await fetchXgyq()).data.diseaseh5Shelf.areaTree[0].children
   // console.log(data)
 
