@@ -2,11 +2,15 @@
   "name": "wechat-bot",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "author": "markshawn2020 <shawninjuly@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.1.2",
     "fs": "^0.0.1-security",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^18.8.3"
   }
 }
