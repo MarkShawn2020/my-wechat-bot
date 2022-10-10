@@ -11,19 +11,16 @@ import {PuppetPadlocal} from "wechaty-puppet-padlocal";
 import fs from "fs";
 import path from "path";
 import yaml from 'js-yaml'
-// @ts-ignore
-import simplePinyin from 'simple-pinyin';
+
 
 import {PROJECT_DIR} from "../general/path";
 import {ISubscribeFromKey, IWechatyConfig} from "./wechatyConfig.ds";
 import {checkXgyqStatus} from "../services/xgyq/getData";
-import it from "node:test";
+import {getSimplePinyin} from "./utils";
+import {logger} from "../general/log";
+
 
 dotenv.config()
-
-export const getSimplePinyin = (key: string): string => {
-  return simplePinyin(key).map((s: string) => s[0].toLowerCase()).join('')
-}
 
 const wechatyConfig = yaml.load(fs.readFileSync(path.join(PROJECT_DIR, 'config-wechaty.yaml'), 'utf-8')) as unknown as IWechatyConfig
 const {menu} = wechatyConfig
@@ -45,7 +42,8 @@ const subscribeMap = subscribes.reduce((result: Record<string, ISubscribeFromKey
 }, {})
 
 const REG_SUBSCRIBE = new RegExp(menu.regex)
-console.log({REG_SUBSCRIBE})
+logger.info(wechatyConfig)
+console.log(wechatyConfig)
 
 
 // if not add this, would have TLS connection error
@@ -67,10 +65,9 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
     const matched = text.match(REG_SUBSCRIBE)
     const trigger = matched![1].toLowerCase() // 触发词
     const toInput = matched![2] // 输入
-    console.log({matched})
     if (!trigger) return;
 
-    console.log({...msg.payload, trigger, toInput})
+    logger.info({...msg.payload, trigger, toInput})
     // 匹配上
     if (Object.keys(subscribeMap).includes(trigger)) {
 
@@ -91,7 +88,7 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
           await toReply.say(await checkXgyqStatus({key: toInput}))
           return
         default:
-          console.error(`UNEXPECTED!`)
+          logger.error(`UNEXPECTED!`)
       }
     }
   }
