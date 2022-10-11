@@ -33,7 +33,7 @@ export default async function screenshot(options = {}, fp = "chart.png") {
 
 
 import path from "path";
-import {OUT_DIR} from "../../src/general/path";
+import {OUT_DIR} from "../../src/utils/path";
 
 screenshot({
   data: {

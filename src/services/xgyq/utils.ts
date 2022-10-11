@@ -1,4 +1,4 @@
-import {IXgyqAreaItem} from "./ds";
+import {IXgyqAreaItem} from "./ds/diseaseh5Shelf";
 
 export const dumpXgyqAreaItem = (item: IXgyqAreaItem): string[] => {
   return [

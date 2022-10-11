@@ -1,5 +1,5 @@
 import path from "path";
-import {OUT_DIR} from "../../src/general/path";
+import {OUT_DIR} from "../../src/utils/path";
 import genChart from "../../src/utils/visualization/chartjs";
 import {ChartConfiguration} from "chart.js";
 

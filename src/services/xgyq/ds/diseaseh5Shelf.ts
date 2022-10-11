@@ -1,7 +1,4 @@
-export interface ProvinceCity {
-  province: string
-  city: string
-}
+import {ProvinceCity} from "./general";
 
 /**
  * example:

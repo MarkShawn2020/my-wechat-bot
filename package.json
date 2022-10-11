@@ -9,6 +9,7 @@
     "chart.js": "^3.9.1",
     "chartjs-node-canvas": "^4.1.6",
     "dotenv": "^16.0.3",
+    "file-box": "^1.4.15",
     "fs": "^0.0.1-security",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",

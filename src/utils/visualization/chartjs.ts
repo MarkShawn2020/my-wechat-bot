@@ -6,7 +6,7 @@ import {ChartJSNodeCanvas, ChartJSNodeCanvasOptions} from "chartjs-node-canvas";
 import type {ChartConfiguration} from "chart.js";
 import yaml from "js-yaml";
 import path from "path";
-import {CONFIG_DIR} from "../../general/path";
+import {SYSTEM_CONFIG_DIR} from "../path";
 import _ from "lodash";
 
 export interface IChartjsConfig {
@@ -14,7 +14,7 @@ export interface IChartjsConfig {
   chartConfiguration: ChartConfiguration
 }
 
-const defaultChartjsConfig = yaml.load(fs.readFileSync(path.join(CONFIG_DIR, 'chartjs.default.yaml'), 'utf-8')) as unknown as IChartjsConfig
+const defaultChartjsConfig = yaml.load(fs.readFileSync(path.join(SYSTEM_CONFIG_DIR, 'chartjs.default.yaml'), 'utf-8')) as unknown as IChartjsConfig
 
 
 export interface genChartProps {

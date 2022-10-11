@@ -13,7 +13,7 @@
 
 ## pre-run (Ubuntu as an example)
 
-1. install `yarn`
+### 1. install `yarn`
 
 ```shell
 sudo apt remove cmdtest
@@ -24,13 +24,25 @@ sudo apt-get update
 sudo apt-get install yarn -y
 ```
 
-2. init project
+### 2. install packages for `canvas`
+
+```shell
+# otherwise can't `yarn`
+# ref: https://stackoverflow.com/a/64567740/9422455
+sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+
+# otherwise can't draw Chinese
+# ref: https://gist.github.com/wohugb/120f59d024e74532b639
+sudo apt-get install language-pack-gnome-zh-hans fonts-wqy-microhei
+```
+
+### 3. init project
 
 ```shell
 yarn
 ```
 
-3. install `ts-node`
+### 4. install `ts-node`
 
 ```shell
 # install node with the latest version (>=12 necessary)

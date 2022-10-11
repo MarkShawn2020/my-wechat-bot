@@ -1,7 +1,7 @@
 import ImageCharts from "image-charts";
 import fs from "fs";
 import path from "path";
-import {OUT_DIR} from "../../src/general/path";
+import {OUT_DIR} from "../../src/utils/path";
 
 const pie = new ImageCharts()
   .cht('line')
