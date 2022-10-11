@@ -3,26 +3,25 @@
  * - 有问题：https://github.com/wechaty/puppet-padlocal/wiki/Getting-Started-with-TypeScript-Javascript
  * - https://github.com/padlocal/wechaty-puppet-padlocal-demo/blob/master/main.ts
  */
-// bot.ts
 
-import dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-import {Contact, Message, Room, ScanStatus, WechatyBuilder} from "wechaty";
-import {PuppetPadlocal} from "wechaty-puppet-padlocal";
 import fs from "fs";
 import path from "path";
+import dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import yaml from 'js-yaml'
 
+import {Contact, Message, Room, ScanStatus, WechatyBuilder} from "wechaty";
+import {PuppetPadlocal} from "wechaty-puppet-padlocal";
 
-import {PROJECT_DIR} from "../general/path";
-import {ISubscribeFromKey, IWechatyConfig} from "./ds/config";
+import {CONFIG_DIR} from "../general/path";
+import {logger} from "../general/log";
 import {checkXgyqStatus} from "../services/xgyq/getData";
 import {getSimplePinyin} from "./utils";
-import {logger} from "../general/log";
+import {ISubscribeFromKey, IWechatyConfig} from "./ds/config";
 
 
 dotenv.config()
 
-const wechatyConfig = yaml.load(fs.readFileSync(path.join(PROJECT_DIR, 'config-wechaty.yaml'), 'utf-8')) as unknown as IWechatyConfig
+const wechatyConfig = yaml.load(fs.readFileSync(path.join(CONFIG_DIR, 'wechaty.yaml'), 'utf-8')) as unknown as IWechatyConfig
 const {menu} = wechatyConfig
 const {subscribes} = menu
 const defaultDomain = menu.domain

@@ -1,0 +1,10 @@
+canvasOptions:
+  width: 512
+  height: 512
+  backgroundColor: white
+chartConfiguration:
+  type: line
+  options:
+    scales:
+      y:
+        suggestedMin: 0

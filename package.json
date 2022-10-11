@@ -11,6 +11,7 @@
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
     "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
     "path": "^0.12.7",
     "simple-pinyin": "^4.0.0",
     "wechaty": "^1.20.2",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/js-yaml": "^4.0.5",
+    "@types/lodash": "^4.14.186",
     "@types/node": "^18.8.3"
   }
 }
