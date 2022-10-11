@@ -48,11 +48,12 @@ export const checkXgyqStatus = async (props: { key: string }): Promise<string> =
 
   for (let province of data) {
     if (province.name.includes(key)) {
-      return [`省份：${key}`, ...dumpXgyqAreaItem(province)].join('\n')
+      return [`${key}：`, ...dumpXgyqAreaItem(province)].join('\n')
     }
     for (let city of province.children) {
-      if ((province.name + city.name).includes(key)) {
-        return [`城市：${key}`, ...dumpXgyqAreaItem(city)].join('\n')
+      const fullCityName = province.name + city.name
+      if (fullCityName.includes(key)) {
+        return [`${fullCityName}：`, ...dumpXgyqAreaItem(city)].join('\n')
       }
     }
   }

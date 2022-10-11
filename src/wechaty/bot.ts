@@ -14,7 +14,7 @@ import yaml from 'js-yaml'
 
 
 import {PROJECT_DIR} from "../general/path";
-import {ISubscribeFromKey, IWechatyConfig} from "./wechatyConfig.ds";
+import {ISubscribeFromKey, IWechatyConfig} from "./ds/config";
 import {checkXgyqStatus} from "../services/xgyq/getData";
 import {getSimplePinyin} from "./utils";
 import {logger} from "../general/log";
