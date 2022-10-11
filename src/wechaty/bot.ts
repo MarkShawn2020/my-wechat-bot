@@ -75,7 +75,7 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
 
       // todo: @ in room
       let toReply: Room | Contact | undefined = undefined
-      if (room && subscribeMap[trigger].groups.includes(room.payload!.topic)) {
+      if (room && subscribeMap[trigger].groups.filter(x => room.payload!.topic.includes(x))) {
         toReply = room
       } else if (subscribeMap[trigger].contacts.includes(talker.payload!.name)) {
         toReply = talker
@@ -99,7 +99,9 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
             ].join('\n')
           )
           return
+
         case 'CALL_HELP':
+          console.log({toInput})
           if (!toInput) {
             await toReply.say(`请求帮助时必须指定服务名称或者序号`)
             return
@@ -123,9 +125,11 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
           }
           await toReply.say(JSON.stringify(targetSubscribe, null, 2))
           return
+
         case 'GET_XGYQ_STATUS':
           await toReply.say(await checkXgyqStatus({key: toInput}))
           return
+
         case 'GET_XGYQ_TREND':
           let data = await fetchDailyListByPlace({key: toInput})
           await toReply.say(Buffer.isBuffer(data) ? FileBox.fromBuffer(data, `${toInput}.png`) : data)

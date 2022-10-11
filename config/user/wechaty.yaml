@@ -1,10 +1,11 @@
 menu:
   regex: ^([\u4e00-\u9fa5a-zA-Z0-9]+)[\s+:：_-]*(.*)$
-  domain: # 可以被覆盖
+  domain: # overridable
     contacts:
       - 南川
     groups:
       - CS魔法社V3
+      - 中学生编程入门
   subscribes:
     - name: CALL_MENU
       name_cn: 服务列表
