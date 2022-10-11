@@ -1,4 +1,4 @@
-# 南川微信机器人服务
+**# 南川微信机器人服务
 
 ## intro
 
@@ -54,3 +54,35 @@ ts-node src/wechaty/bot.ts
 
 - 数据源：https://news.qq.com/zt2020/page/feiyan.htm#/area?adcode=530600
 - 数据主要接口：https://api.inews.qq.com/newsqa/v1/query/inner/publish/modules/list?modules=diseaseh5Shelf
+
+## nodejs生成图表框架选型
+
+- chart.js
+  - install: `yarn add chart.js chartjs-node-canvas` 
+  - pros
+  - ref
+    - doc: https://www.chartjs.org/docs/latest/charts/line.html
+    - how to smooth via `tension`: https://www.appsloveworld.com/chart-js-how-to-make-sharp-lines-to-smooth-curved-lines
+- image-charts [x]
+  - install: `yarn add image-charts`
+  - pros
+    - 接口非常简练，较为友好
+    - 有较为详细的文档与playground
+  - cons
+    - 不支持曲线图（不可接受）
+  - ref
+    - repo: https://github.com/image-charts/javascript
+    - doc: https://documentation.image-charts.com/line-charts/
+    - playground: https://editor.image-charts.com/
+- puppet [x]
+  - install: `yarn add puppeteer`
+  - pros
+    - 基于chromium非常强大
+    - 自带了曲线
+    - 图像生成效果好、优美
+  - cons
+    - 需要不断启动与关闭chromium，或者主动维护，以及程序代码不够干净（不可接受）
+    - 需要额外安装chromium（~200Mb)
+  - ref
+    - doc: https://pptr.dev/
+    -** 
