@@ -14,6 +14,8 @@ export interface IWechatyConfigMenuItem {
 }
 
 export interface IWechatyConfig {
+  name: string
+  version: string
   menu: {
     regex: string
     domain: IWechatyConfigDomain

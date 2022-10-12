@@ -1,1 +1,0 @@
-export const BOT_NAME = '小川微信机器人V0.2.0'

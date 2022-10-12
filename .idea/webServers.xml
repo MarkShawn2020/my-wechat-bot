@@ -5,7 +5,7 @@
       <webServer id="ec291eda-6483-4ccb-bac3-772191a2096b" name="my-aws-server-002_hk">
         <fileTransfer rootFolder="/home/ubuntu/my-coding/wechat-bot" accessType="SFTP" host="18.162.213.118" port="22" sshConfigId="0ca519f4-ba69-441e-8a8c-fca9a9703f79" sshConfig="ubuntu@18.162.213.118:22 key" keyPair="true">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" isUseRsync="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>

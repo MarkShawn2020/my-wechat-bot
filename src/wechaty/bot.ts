@@ -4,59 +4,24 @@
  * - https://github.com/padlocal/wechaty-puppet-padlocal-demo/blob/master/main.ts
  */
 
-import fs from "fs";
-import path from "path";
 import dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-import yaml from 'js-yaml'
 
 import {Contact, Message, Room, ScanStatus, WechatyBuilder} from "wechaty";
 import {PuppetPadlocal} from "wechaty-puppet-padlocal";
 
-import {USER_CONFIG_DIR} from "../utils/path";
 import {logger} from "../utils/log";
 import {checkXgyqStatus} from "../services/xgyq/api/status";
 import {getSimplePinyin} from "../utils/pinyin";
-import {ISubscribeFromKey, IWechatyConfig} from "./ds/config";
 import {fetchDailyListByPlace} from "../services/xgyq/api/trend";
 import {FileBox} from "file-box";
-import {BOT_NAME} from "./config";
 import {getQsbkText} from "../services/qsbk/api/getText";
+import {availableServices, FULL_BOT_NAME, REG_SUBSCRIBE, subscribeMap, subscribes} from "./base";
 
 dotenv.config()
 
-const wechatyConfig = yaml.load(fs.readFileSync(path.join(USER_CONFIG_DIR, 'wechaty.yaml'), 'utf-8')) as unknown as IWechatyConfig
-const {menu} = wechatyConfig
-const {subscribes} = menu
-const defaultDomain = menu.domain
-const defaultContacts = defaultDomain.contacts
-const defaultGroups = defaultDomain.groups
-
-const subscribeMap = subscribes.reduce((result: Record<string, ISubscribeFromKey>, subscribe) => {
-  subscribe.keys.forEach(key => {
-    const item = {
-      name: subscribe.name,
-      groups: subscribe.domain?.groups ?? defaultGroups,
-      contacts: subscribe.domain?.contacts ?? defaultContacts,
-    }
-    result[key] = result[getSimplePinyin(key)] = item
-  })
-  return result
-}, {})
-const availableServices = subscribes.map((subscribe, index) => `${index + 1}. ${subscribe.name_cn}`).join('\n')
-
-const REG_SUBSCRIBE = new RegExp(menu.regex)
-logger.info(wechatyConfig)
-console.log(wechatyConfig)
-
-
-// if not add this, would have TLS connection error
-const puppet = new PuppetPadlocal({
-//  using env default
-})
-
 const bot = WechatyBuilder.build({
-  name: "TestBot",
-  puppet
+  name: FULL_BOT_NAME,
+  puppet: new PuppetPadlocal({})
 })
 
 const handleSubscribes = async (msg: Message): Promise<undefined> => {
@@ -87,7 +52,7 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
         case 'CALL_MENU':
           await toReply.say(
             [
-              `== ${BOT_NAME} ==`,
+              `== ${FULL_BOT_NAME} ==`,
               '\n',
               '❤️目前可用服务：',
               availableServices,
@@ -119,7 +84,7 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
           } else {
             const matchedSubscribes = subscribes.filter(subscribe => subscribe.name_cn.includes(toInput) || getSimplePinyin(subscribe.name_cn).includes(toInput))
             if (matchedSubscribes.length !== 1) {
-              await toReply.say(`${BOT_NAME}\n仅支持以下服务：\n${availableServices}`)
+              await toReply.say(`${FULL_BOT_NAME}\n仅支持以下服务：\n${availableServices}`)
               return
             }
             targetSubscribe = matchedSubscribes[0]
