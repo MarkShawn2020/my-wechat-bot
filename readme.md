@@ -67,6 +67,20 @@ ts-node src/wechaty/bot.ts
 - 数据源：https://news.qq.com/zt2020/page/feiyan.htm#/area?adcode=530600
 - 数据主要接口：https://api.inews.qq.com/newsqa/v1/query/inner/publish/modules/list?modules=diseaseh5Shelf
 
+## service: 讲个笑话
+
+- free-api.com
+  - desc
+    - 这是一个提供众多api的网站（包括笑话），需要token
+  - ref
+    - home: https://www.free-api.com/
+- 讲个笑话API 
+  - desc
+    - 直接调用api，就能返回纯文字结果（含`\n`），但有点小小低俗
+  - ref
+    - doc: https://api.lklblog.cn/index/ss?id=1
+    - api: https://api.lklblog.cn/api/qwxh.php
+
 ## nodejs生成图表框架选型
 
 - chart.js

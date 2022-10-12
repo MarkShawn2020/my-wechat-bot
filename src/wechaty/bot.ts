@@ -20,6 +20,7 @@ import {ISubscribeFromKey, IWechatyConfig} from "./ds/config";
 import {fetchDailyListByPlace} from "../services/xgyq/api/trend";
 import {FileBox} from "file-box";
 import {BOT_NAME} from "./config";
+import {getQsbkText} from "../services/qsbk/api/getText";
 
 dotenv.config()
 
@@ -134,6 +135,11 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
           let data = await fetchDailyListByPlace({key: toInput})
           await toReply.say(Buffer.isBuffer(data) ? FileBox.fromBuffer(data, `${toInput}.png`) : data)
           return
+
+        case 'GET_QSBK_TEXT':
+          await toReply.say(await getQsbkText())
+          return
+
         default:
           logger.error(`UNEXPECTED!`)
       }
