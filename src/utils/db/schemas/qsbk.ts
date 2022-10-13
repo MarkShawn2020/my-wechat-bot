@@ -23,3 +23,15 @@ export const qsbkSingleImageSchema = new Schema(
     collection: "image"
   }
 )
+
+export const qsbkSingleVideoSchema = new Schema(
+  {
+    _id: String,
+    content: String,
+    format: String,
+    origin_url: String
+  },
+  {
+    collection: "video"
+  }
+)

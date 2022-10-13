@@ -1,5 +1,5 @@
 name: 小川微信机器人
-version: 0.2.3
+version: 0.3.0
 menu:
   regex: ^([\u4e00-\u9fa5a-zA-Z0-9]+)[\s+:：_-]*(.*)$
   domain: # overridable
@@ -61,6 +61,21 @@ menu:
       output: 随机一条糗事百科文字+单图
       todo:
         - 支持多图
+
+    - name: GET_QSBK_VIDEO
+      name_zh: 搞笑视频
+      keys:
+        - 搞笑视频
+        - 来个搞笑视频
+        - 糗事百科视频
+      output: 随机一条糗事百科文字+视频
+
+    - name: GET_QSBK
+      name_zh: 来点乐子
+      keys:
+        - 来点乐子
+        - 糗事百科
+      output: 随机一条糗事百科纯文/图片/视频
           
     - name: GEN_DALLE_IMAGES
       name_zh: AI画图

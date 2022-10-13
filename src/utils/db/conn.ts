@@ -1,7 +1,7 @@
 // ref: https://mongoosejs.com/docs/connections.html
 import * as mongoose from "mongoose";
 import dotenv from "dotenv";
-import {qsbkSingleImageSchema, qsbkTextSchema} from "./schemas/qsbk";
+import {qsbkSingleImageSchema, qsbkSingleVideoSchema, qsbkTextSchema} from "./schemas/qsbk";
 
 dotenv.config()
 
@@ -16,4 +16,5 @@ conn.once('open', () => {
 
 export const qsbkTextModel = conn.model('text', qsbkTextSchema)
 export const qsbkSingleImageModel = conn.model('image', qsbkSingleImageSchema)
+export const qsbkSingleVideoModel = conn.model('video', qsbkSingleVideoSchema)
 export default conn

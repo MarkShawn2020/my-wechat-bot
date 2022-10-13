@@ -8,7 +8,7 @@ import axios from "axios";
 getQsbkSingleImage()
   .then(async (res) => {
     console.log({res})
-    const fp = path.join(OUT_DIR, res.imageName)
+    const fp = path.join(OUT_DIR, res.fileName)
     const imgRes = await axios.get(res.origin_url, {responseType: "arraybuffer"})
     fs.writeFileSync(fp, imgRes.data)
     console.log(`dumped into file://${fp}`)
