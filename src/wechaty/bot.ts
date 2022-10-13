@@ -18,6 +18,7 @@ import {getQsbkText} from "../services/qsbk/api/getQsbkText";
 import {availableServices, FULL_BOT_NAME, REG_SUBSCRIBE, subscribeMap, subscribes, VALID_TRIGGERS} from "./base";
 import {fetchDalle} from "../services/text2imgs/api/text2imgs";
 import {getQsbkSingleImage} from "../services/qsbk/api/getQsbkSingleImage";
+import yaml from "js-yaml";
 
 dotenv.config()
 
@@ -91,7 +92,7 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
             }
             targetSubscribe = matchedSubscribes[0]
           }
-          await toReply.say(JSON.stringify(targetSubscribe, null, 2))
+          await toReply.say(yaml.dump(targetSubscribe, {indent: 2}))
           return
 
         case 'GET_XGYQ_STATUS':
