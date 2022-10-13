@@ -6,7 +6,7 @@ export const dumpXgyqAreaItem = (item: IXgyqAreaItem): string[] => {
     `· 总确认：${item.total.confirm}`,
     `· 总死亡：${item.total.dead}`,
     `· 总治愈：${item.total.heal}`,
-    `· 新增：${item.today.wzz_add}`,
-    `· 新确认：${item.today.confirm}`
+    `· 新增确认：${item.today.confirm}`,
+    `· 新增无症状：${item.today.wzz_add}`,
   ]
 }
