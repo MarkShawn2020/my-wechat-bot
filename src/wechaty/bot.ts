@@ -14,9 +14,10 @@ import {checkXgyqStatus} from "../services/xgyq/api/status";
 import {getSimplePinyin} from "../utils/pinyin";
 import {fetchDailyListByPlace} from "../services/xgyq/api/trend";
 import {FileBox} from "file-box";
-import {getQsbkText} from "../services/qsbk/api/getText";
+import {getQsbkText} from "../services/qsbk/api/getQsbkText";
 import {availableServices, FULL_BOT_NAME, REG_SUBSCRIBE, subscribeMap, subscribes, VALID_TRIGGERS} from "./base";
 import {fetchDalle} from "../services/text2imgs/api/text2imgs";
+import {getQsbkSingleImage} from "../services/qsbk/api/getQsbkSingleImage";
 
 dotenv.config()
 
@@ -26,10 +27,12 @@ const bot = WechatyBuilder.build({
 })
 
 const handleSubscribes = async (msg: Message): Promise<undefined> => {
+  logger.info(msg.toString())
   const text = msg.text()
   const room = msg.room()
   const talker = msg.talker()
 
+  logger.info({text})
   if (REG_SUBSCRIBE.test(text)) {
     const matched = text.match(REG_SUBSCRIBE)
     const trigger = getSimplePinyin(matched![1]) // 触发词
@@ -104,6 +107,12 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
 
         case 'GET_QSBK_TEXT':
           await toReply.say(await getQsbkText())
+          return
+
+        case 'GET_QSBK_SINGLE_IMAGE':
+          const item = await getQsbkSingleImage()
+          await toReply.say(item.content)
+          await toReply.say(FileBox.fromUrl(item.origin_url, item.imageName))
           return
 
         case `GEN_DALLE_IMAGES`:

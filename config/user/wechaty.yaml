@@ -7,7 +7,7 @@ menu:
       - 南川
     groups:
       - CS魔法社V3
-      - 中学生编程入门
+#      - 中学生编程入门
   subscribes:
     - name: CALL_MENU
       name_zh: 服务列表
@@ -46,13 +46,21 @@ menu:
     - name: GET_QSBK_TEXT
       name_zh: 讲个笑话
       keys:
-        - 糗事百科
-        - 糗事百科纯文
         - 讲个笑话
+        - 糗事百科纯文
       output: 随机一条糗事百科纯文本内容
       todo:
         - 支持分类
         - 基于iOS获得更多素材
+
+    - name: GET_QSBK_SINGLE_IMAGE
+      name_zh: 来张乐图
+      keys:
+        - 来张乐图
+        - 糗事百科单图
+      output: 随机一条糗事百科文字+单图
+      todo:
+        - 支持多图
           
     - name: GEN_DALLE_IMAGES
       name_zh: AI画图
