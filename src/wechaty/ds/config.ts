@@ -5,7 +5,7 @@ export interface IWechatyConfigDomain {
 
 export interface IWechatyConfigMenuItem {
   name: string
-  name_cn: string
+  name_zh: string
   keys: string[]
   input?: string[]
   output?: string

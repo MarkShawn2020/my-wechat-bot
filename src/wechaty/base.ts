@@ -18,11 +18,13 @@ export const subscribeMap = subscribes.reduce((result: Record<string, ISubscribe
       groups: subscribe.domain?.groups ?? wechatyConfig.menu.domain.groups,
       contacts: subscribe.domain?.contacts ?? wechatyConfig.menu.domain.contacts,
     }
-    result[key] = result[getSimplePinyin(key)] = item
+    result[getSimplePinyin(key)] = item
   })
   return result
 }, {})
-export const availableServices = subscribes.map((subscribe, index) => `${index + 1}. ${subscribe.name_cn}`).join('\n')
+export const VALID_TRIGGERS = Object.keys(subscribeMap)
+console.log({VALID_TRIGGERS})
+export const availableServices = subscribes.map((subscribe, index) => `${index + 1}. ${subscribe.name_zh}`).join('\n')
 
 export const REG_SUBSCRIBE = new RegExp(wechatyConfig.menu.regex)
 

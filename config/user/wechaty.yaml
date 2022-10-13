@@ -1,5 +1,5 @@
 name: 小川微信机器人
-version: 0.2.1
+version: 0.2.2
 menu:
   regex: ^([\u4e00-\u9fa5a-zA-Z0-9]+)[\s+:：_-]*(.*)$
   domain: # overridable
@@ -10,7 +10,7 @@ menu:
       - 中学生编程入门
   subscribes:
     - name: CALL_MENU
-      name_cn: 服务列表
+      name_zh: 服务列表
       keys:
         - 川川
         - 小川川
@@ -19,7 +19,7 @@ menu:
       output: 可用服务列表
 
     - name: CALL_HELP
-      name_cn: 请求帮助
+      name_zh: 请求帮助
       keys:
         - 请求帮助
         - help
@@ -27,7 +27,7 @@ menu:
       output: 服务的解释
 
     - name: GET_XGYQ_STATUS
-      name_cn: 查疫情状态
+      name_zh: 查疫情状态
       keys:
         - 查疫情
         - 查疫情状态
@@ -36,7 +36,7 @@ menu:
       todo: 支持国家级别的查询
 
     - name: GET_XGYQ_TREND
-      name_cn: 查疫情趋势
+      name_zh: 查疫情趋势
       keys:
         - 查疫情趋势
       input: 省份/城市/省份+城市
@@ -44,7 +44,7 @@ menu:
       todo: 支持国家级别的查询
 
     - name: GET_QSBK_TEXT
-      name_cn: 糗事百科纯文
+      name_zh: 讲个笑话
       keys:
         - 糗事百科
         - 糗事百科纯文
@@ -53,3 +53,13 @@ menu:
       todo:
         - 支持分类
         - 基于iOS获得更多素材
+          
+    - name: GEN_DALLE_IMAGES
+      name_zh: AI画图
+      desc: 基于DALLE的AI画图
+      keys:
+        - AI画图
+        - AI作画
+      input: 待输入的英文
+      output: 随机图片
+      todo: 全部九张图片

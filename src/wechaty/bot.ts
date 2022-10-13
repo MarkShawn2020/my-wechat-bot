@@ -15,7 +15,8 @@ import {getSimplePinyin} from "../utils/pinyin";
 import {fetchDailyListByPlace} from "../services/xgyq/api/trend";
 import {FileBox} from "file-box";
 import {getQsbkText} from "../services/qsbk/api/getText";
-import {availableServices, FULL_BOT_NAME, REG_SUBSCRIBE, subscribeMap, subscribes} from "./base";
+import {availableServices, FULL_BOT_NAME, REG_SUBSCRIBE, subscribeMap, subscribes, VALID_TRIGGERS} from "./base";
+import {fetchDalle} from "../services/text2imgs/api/text2imgs";
 
 dotenv.config()
 
@@ -31,13 +32,13 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
 
   if (REG_SUBSCRIBE.test(text)) {
     const matched = text.match(REG_SUBSCRIBE)
-    const trigger = matched![1].toLowerCase() // 触发词
+    const trigger = getSimplePinyin(matched![1]) // 触发词
     const toInput = matched![2] // 输入
     if (!trigger) return;
 
     logger.info({...msg.payload, trigger, toInput})
     // 匹配上
-    if (Object.keys(subscribeMap).includes(trigger)) {
+    if (VALID_TRIGGERS.includes(trigger)) {
 
       // todo: @ in room
       let toReply: Room | Contact | undefined = undefined
@@ -82,7 +83,7 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
             }
             targetSubscribe = subscribes[subscribeSeq - 1]
           } else {
-            const matchedSubscribes = subscribes.filter(subscribe => subscribe.name_cn.includes(toInput) || getSimplePinyin(subscribe.name_cn).includes(toInput))
+            const matchedSubscribes = subscribes.filter(subscribe => subscribe.name_zh.includes(toInput) || getSimplePinyin(subscribe.name_zh).includes(toInput))
             if (matchedSubscribes.length !== 1) {
               await toReply.say(`${FULL_BOT_NAME}\n仅支持以下服务：\n${availableServices}`)
               return
@@ -103,6 +104,24 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
 
         case 'GET_QSBK_TEXT':
           await toReply.say(await getQsbkText())
+          return
+
+        case `GEN_DALLE_IMAGES`:
+          if (!toInput) {
+            await toReply.say('AI画图服务输入文本不能为空')
+            return
+          }
+          if (!/^[0-9a-zA-Z\s'.,:-]+$/.test(toInput)) {
+            await toReply.say('AI画图服务输入文本只支持英文')
+            return
+          }
+          await toReply.say(`AI画图任务【${toInput}】已启动，结果大约需要一分钟……`)
+          const res = await fetchDalle({key: toInput})
+          const seq = Math.floor(Math.random() * 9)
+          const imgBase64 = res.images[seq]
+          const fn = `${res.name}_${seq + 1}.jpg`
+          await toReply.say(`AI画图任务【${toInput}】完成：`)
+          await toReply.say(FileBox.fromBase64(imgBase64, fn))
           return
 
         default:

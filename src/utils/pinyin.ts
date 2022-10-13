@@ -2,7 +2,14 @@
 import simplePinyin from 'simple-pinyin';
 
 export const getSimplePinyin = (key: string): string => {
-  return simplePinyin(key).map((s: string) => s[0].toLowerCase()).join('')
+  return Array.from(key)
+    .map(s => {
+      if (/[\u4e00-\u9fa5]/.test(s)) {
+        s = simplePinyin(s)[0][0]
+      }
+      return s.toLowerCase()
+    })
+    .join('')
 }
 
-// console.log(getSimplePinyin('请求帮助'))
+console.log(getSimplePinyin('ai画图'))
