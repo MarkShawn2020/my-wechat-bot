@@ -62,10 +62,8 @@ const handleSubscribes = async (msg: Message): Promise<undefined> => {
               availableServices,
               '\n',
               '⭐️请求调用：【服务名（或其拼音） 可选参数】',
-              '例如：cc | 川川 | 查疫情 北京朝阳 | cyq 北京朝阳',
               '\n',
-              '⭐️请求帮助：【请求帮助（qqbz、help） 服务名（或其拼音、序号）】',
-              '例如：help 3 | qqbz 3 | qqbz cyq | qqbz 查疫情 | 请求帮助 查疫情'
+              '⭐️请求帮助：【help 服务名（或其拼音、序号）】',
             ].join('\n')
           )
           return
