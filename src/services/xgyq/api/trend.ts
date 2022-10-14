@@ -7,7 +7,7 @@ import {ensurePlace, OK} from "./general";
 import adcordMap from '../../../../config/system/adcodeMap.json'
 import genChart from "../../../utils/visualization/chartjs";
 import {CHART_COLORS} from "../../../utils/colors";
-import {BOT_NAME} from "../../../wechaty/config";
+import {FULL_BOT_NAME} from "../../../wechaty/base";
 
 export interface fetchDailyListProps {
   adcode: string // 210000: 辽宁, 211300: 辽宁朝阳
@@ -78,7 +78,7 @@ export const fetchDailyListByPlace = async (props: fetchDailyListByPlaceProps): 
             },
             subtitle: {
               display: true,
-              text: `from ${BOT_NAME}`,
+              text: `from ${FULL_BOT_NAME}`,
               position: 'bottom',
               align: "end",
               font: {

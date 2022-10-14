@@ -27,4 +27,5 @@ export interface ISubscribeFromKey {
   name: string
   groups: string[]
   contacts: string[]
+  config: IWechatyConfigMenuItem
 }
