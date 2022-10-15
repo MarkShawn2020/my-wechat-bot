@@ -1,5 +1,5 @@
 name: 小川微信机器人
-version: 0.3.1
+version: 0.3.2
 menu:
   regex: ^([\u4e00-\u9fa5a-zA-Z0-9]+)[\s+:：_-]*(.*)$
   domain: # overridable
@@ -73,3 +73,13 @@ menu:
       input: 待输入的英文
       output: 随机图片
       todo: 全部九张图片
+
+    - name: SEARCH_TORRENTS
+      name_zh: 搜种子
+      desc: 基于 btdig.com
+      keys:
+        - 搜种子
+      output: 第一条搜索结果
+      todo:
+        - 尽可能找到最高清的
+        - 屏蔽情色 :)

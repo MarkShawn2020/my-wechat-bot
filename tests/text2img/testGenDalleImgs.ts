@@ -1,4 +1,4 @@
-import {fetchDalle, FetchDalleFromKeys} from "../../src/services/text2imgs/api/text2imgs";
+import {fetchDalle, FetchDalleFromKeys} from "../../src/services/text2img/api/text2imgs";
 import fs from "fs";
 import path from "path";
 import {OUT_DIR} from "../../src/utils/path";

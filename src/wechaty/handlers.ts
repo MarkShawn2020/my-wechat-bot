@@ -5,12 +5,13 @@ import {Contact, Message, Room} from "wechaty";
 import {logger} from "../utils/log";
 import {getSimplePinyin} from "../utils/pinyin";
 import {fetchDailyListByPlace} from "../services/xgyq/api/trend";
-import {fetchDalle} from "../services/text2imgs/api/text2imgs";
+import {fetchDalle} from "../services/text2img/api/text2imgs";
 import yaml from "js-yaml";
 import {checkXgyqStatus} from "../services/xgyq/api/status";
 import {getQsbkText} from "../services/qsbk/api/getQsbkText";
 import {getQsbkSingleVideo} from "../services/qsbk/api/getQsbkSingleVideo";
 import {ToReply} from "./ds/general";
+import {searchTorrentsViaAxios} from "../services/torrent/api/searchTorrentsViaAxios";
 
 
 export const handleCallHelp = async (toReply: ToReply, toInput: string) => {
@@ -90,6 +91,15 @@ export const handleText2Img = async (toReply: ToReply, toInput?: string) => {
   await toReply.say(FileBox.fromBase64(imgBase64, fn))
 }
 
+export const handleSearchTorrents = async (toReply: ToReply, toInput?: string) => {
+  if (!toInput) {
+    await toReply.say(`搜种子服务需要一个参数，例如：搜种子 隐入尘烟`)
+    return
+  }
+  const item = await searchTorrentsViaAxios({key: toInput})
+  await toReply.say(yaml.dump(item, {indent: 4}))
+}
+
 export const handleSubscribes = async (msg: Message): Promise<void> => {
   logger.info(msg.toString())
   const text = msg.text()
@@ -137,6 +147,9 @@ export const handleSubscribes = async (msg: Message): Promise<void> => {
 
         case `GEN_DALLE_IMAGES`:
           return handleText2Img(toReply, toInput)
+
+        case `SEARCH_TORRENTS`:
+          return handleSearchTorrents(toReply, toInput)
 
         default:
           logger.error(`UNEXPECTED!`)

@@ -112,3 +112,26 @@ ts-node src/wechaty/bot.ts
   - ref
     - doc: https://pptr.dev/
     -** 
+
+## btdig.com 需要使用 tlsv1.2 整理
+
+### 法一：基于 `https`
+
+```typescript
+  secureProtocol: "TLSv1_2_method",
+  agent: new HttpsProxyAgent({
+    port: 7890,
+    host: 'localhost'
+  })
+```
+
+### 法二：基于 `tunnel-agent`
+
+```typescript
+    httpsAgent: TunnelAgent.httpsOverHttp({
+      proxy: url.parse('http://localhost:7890'),
+      maxVersion: "TLSv1.2",
+      minVersion: "TLSv1.2"
+    }),
+    proxy: false
+```
