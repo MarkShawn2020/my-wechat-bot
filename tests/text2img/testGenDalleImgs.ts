@@ -1,8 +1,9 @@
-import {fetchDalle, FetchDalleFromKeys} from "../../src/services/text2img/api/text2imgs";
+import {fetchDalle} from "../../src/services/text2img/api/text2imgs";
 import fs from "fs";
 import path from "path";
 import {OUT_DIR} from "../../src/utils/path";
 import {program, Option} from "commander";
+import {FetchDalleFromKeys} from "../../src/services/text2img/config";
 
 program
   .addOption(new Option('-v, --version <url>', 'api-version').choices(FetchDalleFromKeys))

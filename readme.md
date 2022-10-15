@@ -131,9 +131,33 @@ ts-node src/wechaty/bot.ts
     - doc: https://pptr.dev/
     -** 
 
+## service: AI画图
+
+AI画图目前比较流行的是用 dalle-mini 模型 ([borisdayma/dalle-mini: DALL·E Mini - Generate images from a text prompt](https://github.com/borisdayma/dalle-mini))，我自己尝试本地编译，但跑起来实在太慢。
+
+这个模型是基于 jax 的，还有人改成pytorch版本的： [kuprel/min-dalle: min(DALL·E) is a fast, minimal port of DALL·E Mini to PyTorch](https://github.com/kuprel/min-dalle)，但其 `--no-mega`版本在mac本地跑仍然需要一分半，而`--mega`版本则要十分钟，所以仍然不能接受。
+
+最后还是选择基于网页请求([craiyon.com](https://www.craiyon.com/))获得结果，有两个api接口可以调用（程序接口，不是用于直接点击的）：
+- 旧：https://bf.dallemini.ai/generate
+- 新：https://backend.craiyon.com/generate
+
+实测下来新的接口有繁忙拒绝风险，旧接口似乎没有这个问题，所以目前正在用这个（但刚刚访问似乎打不开了）。
+
+此外，他们返回的图片结果是base64，所以需要自己转换：
+1. 直接保存本地，参考： [node.js - How can I save a base64-encoded image to disk? - Stack Overflow](https://stackoverflow.com/questions/6926016/how-can-i-save-a-base64-encoded-image-to-disk) 
+2. 直接微信发送：`FileBox.fromBase64(imgBase64, fn)` （`src/wechaty/handlers.ts`）
+
+朋友圈的AI画图效果更好一些，问了一下，用的是 stable diffusion：
+
+![stable diffusion result](.imgs/stable-diffusion_result.png)
+
+可以列为TODO项。
+
+TODO: stable diffusion模型（五十多个G的模型）： magnet:?xt=urn:btih:5bde442da86265b670a3e5ea3163afad2c6f8ecc
+
 ## service: 搜种子
 
-### btdig.com 需要基于 tslv1.2
+### 访问 btdig.com 需要基于 tslv1.2
 
 首先必须要能翻墙，也就是基于 vpn 。
 
@@ -173,3 +197,13 @@ curl https://btdig.com/search\?order\=0\&q\=%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A
   }),
   proxy: false,
 ```
+
+## 解析网页框架选取
+
+[How do I parse a HTML page with Node.js - Stack Overflow](https://stackoverflow.com/questions/7372972/how-do-i-parse-a-html-page-with-node-js) 提供了一些选项，例如：
+- jsdom
+- htmlparser
+- cheerio
+- ...
+
+jsdom 我用过，属于模拟浏览器的，我觉得没有必要；cheerio 之前看其他项目用过，看起来很流行，研究了一下确实也是自己比较喜欢的，所以本项目使用 cheerio 进行网页解析：https://github.com/cheeriojs/cheerio
