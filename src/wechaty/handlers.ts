@@ -12,6 +12,7 @@ import {getQsbkText} from "../services/qsbk/api/getQsbkText";
 import {getQsbkSingleVideo} from "../services/qsbk/api/getQsbkSingleVideo";
 import {ToReply} from "./ds/general";
 import {searchTorrentsViaAxios} from "../services/torrent/api/searchTorrentsViaAxios";
+import {setClipboard, Status} from "../services/clipboard/setClipboard";
 
 
 export const handleCallHelp = async (toReply: ToReply, toInput: string) => {
@@ -96,8 +97,18 @@ export const handleSearchTorrents = async (toReply: ToReply, toInput?: string) =
     await toReply.say(`搜种子服务需要一个参数，例如：搜种子 隐入尘烟`)
     return
   }
-  const item = await searchTorrentsViaAxios({key: toInput})
-  await toReply.say(yaml.dump(item, {indent: 4}))
+  const torrentResult = await searchTorrentsViaAxios({key: toInput})
+  if (torrentResult.status === Status.OK) {
+    const ubuntuPasteResult = await setClipboard({content: yaml.dump(torrentResult, {indent: 4}), format: 'yaml'})
+    if (ubuntuPasteResult.status === Status.OK) {
+      await toReply.say([
+        `「${torrentResult.input}」的搜索结果：`,
+        ubuntuPasteResult.url
+      ].join('\n'))
+      return
+    }
+  }
+  await toReply.say(`查种子服务异常！`)
 }
 
 export const handleSubscribes = async (msg: Message): Promise<void> => {

@@ -10,15 +10,15 @@ import {load} from 'cheerio' // ref: https://stackoverflow.com/a/72316589/942245
 // @ts-ignore
 import TunnelAgent from 'tunnel-agent'
 import http from "../../../utils/http";
-import https from "https";
-import {HttpsProxyAgent} from "https-proxy-agent";
+import {setClipboard, Status} from "../../clipboard/setClipboard";
+import yaml from "js-yaml";
 
 
 export interface IGetMagnetProps {
   key: string
 }
 
-export interface IGetMagnetRes {
+export interface IGetMagnetItem {
   title: string
   count: string // int
   size: string // float
@@ -26,6 +26,12 @@ export interface IGetMagnetRes {
   magnet: string // magnet url
 }
 
+export interface IGetMagnetRes {
+  status: Status
+  input: string
+  source: string
+  result: IGetMagnetItem[]
+}
 
 /**
  *
@@ -36,43 +42,37 @@ export const searchTorrentsViaAxios = async (props: IGetMagnetProps): Promise<IG
   const targetUrl = `https://btdig.com/search?order=0&q=${encodeURI(props.key)}`
 
   let httpsAgent;
-  if (process.platform === 'darwin') {
-    httpsAgent = TunnelAgent.httpsOverHttp({
-      maxVersion: "TLSv1.2",
-      minVersion: "TLSv1.2",
-      proxy: {
-        host: 'localhost',
-        port: 7890
-      }
-    })
-  } else {
-    //  hong kong server, doesn't need vpn
-    httpsAgent = new HttpsProxyAgent({
-      secureProtocol: 'TLSv1_2_method'
-    })
-  }
+  /**
+   * todo: why hk server needs vpn also otherwise 429
+   */
+  httpsAgent = TunnelAgent.httpsOverHttp({
+    maxVersion: "TLSv1.2",
+    minVersion: "TLSv1.2",
+    proxy: {
+      host: 'localhost',
+      port: 7890
+    }
+  })
 
   const res = await http.get(targetUrl, {
     httpsAgent,
     proxy: false
   })
-  // console.log(res.data)
   const $ = load(res.data)
-  const firstResult = $('.one_result').first()
-  const title = $('.torrent_name', firstResult).text()
-  const count = $('.torrent_files', firstResult).text()
-  const size = $('.torrent_size', firstResult).text()
-  const age = $('.torrent_age', firstResult).text()
-  const magnet = $('.torrent_magnet a', firstResult).attr('href')!
-
-  const item = {
-    title,
-    count,
-    size,
-    age,
-    magnet
+  const items = Array.from($('.one_result')).map((item) => ({
+    title: $('.torrent_name', item).text(),
+    count: $('.torrent_files', item).text(),
+    size: $('.torrent_size', item).text(),
+    age: $('.torrent_age', item).text(),
+    magnet: $('.torrent_magnet a', item).attr('href')!,
+  }))
+  const result = {
+    status: Status.OK,
+    input: props.key,
+    source: targetUrl,
+    result: items,
   }
-  console.log(item)
-  return item
+  console.log(result)
+  return result
 }
 
