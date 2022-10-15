@@ -10,8 +10,10 @@ import {load} from 'cheerio' // ref: https://stackoverflow.com/a/72316589/942245
 // @ts-ignore
 import TunnelAgent from 'tunnel-agent'
 import http from "../../../utils/http";
-import {setClipboard, Status} from "../../clipboard/setClipboard";
+import {setClipboard} from "../../clipboard/api/setClipboard";
 import yaml from "js-yaml";
+import {logger} from "../../../utils/log";
+import {Status} from "../../../utils/general";
 
 
 export interface IGetMagnetProps {
@@ -72,7 +74,7 @@ export const searchTorrentsViaAxios = async (props: IGetMagnetProps): Promise<IG
     source: targetUrl,
     result: items,
   }
-  console.log(result)
+  logger.info(result)
   return result
 }
 

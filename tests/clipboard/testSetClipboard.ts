@@ -1,4 +1,4 @@
-import {setClipboard} from "../../src/services/clipboard/setClipboard";
+import {setClipboard} from "../../src/services/clipboard/api/setClipboard";
 
 setClipboard({
   content: 'sss001',

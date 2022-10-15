@@ -12,7 +12,8 @@ import {getQsbkText} from "../services/qsbk/api/getQsbkText";
 import {getQsbkSingleVideo} from "../services/qsbk/api/getQsbkSingleVideo";
 import {ToReply} from "./ds/general";
 import {searchTorrentsViaAxios} from "../services/torrent/api/searchTorrentsViaAxios";
-import {setClipboard, Status} from "../services/clipboard/setClipboard";
+import {setClipboard} from "../services/clipboard/api/setClipboard";
+import {Status} from "../utils/general";
 
 
 export const handleCallHelp = async (toReply: ToReply, toInput: string) => {

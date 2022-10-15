@@ -1,14 +1,10 @@
-import http from "../../utils/http";
-import dotenv from "dotenv";
+import http from "../../../utils/http";
+import {logger} from "../../../utils/log";
+import {Status} from "../../../utils/general";
+import {UBUNTU_PASTE_COOKIE, UBUNTU_PASTE_HOST, UBUNTU_PASTE_USERNAME} from "../config";
 
-dotenv.config()
 
-export enum Status {
-  OK = "OK",
-  ERROR = "ERROR"
-}
-
-export interface SetClipboardProps {
+export interface ISetClipboardProps {
   content: string
   format: string
   expiration?: string
@@ -19,11 +15,7 @@ export interface ISetClipboardRes {
   url: string
 }
 
-export const UBUNTU_PASTE_USERNAME = process.env.UBUNTU_PASTE_USERNAME
-export const UBUNTU_PASTE_COOKIE = "sessionid=" + process.env.UBUNTU_PASTE_SESSIONID
-export const UBUNTU_PASTE_HOST = 'https://paste.ubuntu.com'
-
-export const setClipboard = async (props: SetClipboardProps): Promise<ISetClipboardRes> => {
+export const setClipboard = async (props: ISetClipboardProps): Promise<ISetClipboardRes> => {
 
   const formData = {
     'poster': UBUNTU_PASTE_USERNAME,
@@ -54,6 +46,6 @@ export const setClipboard = async (props: SetClipboardProps): Promise<ISetClipbo
   if (url.startsWith('/'))
     url = UBUNTU_PASTE_HOST + url
   const result = {url, status: Status.OK}
-  console.log(result)
+  logger.info(result)
   return result
 }
