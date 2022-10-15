@@ -1,15 +1,29 @@
-**# 南川微信机器人服务
+# 南川微信机器人服务
 
 ## intro
 
 本项目提供基于微信平台的机器人服务，目前已实现：
 
-- [x] 新冠疫情数据查询
+- [x] 新冠疫情
+  - [x] 支持发送`查疫情状态 + 省市`触发回复该省市查询累计与当日的疫情数据
+  - [x] 支持发送`查疫情趋势 + 省市`触发回复按省市查询历史新增疫情数据然后生成的图表
+- [x] 糗事百科
+  - [x] 支持发送`讲个笑话`触发回复糗事百科纯文本
+  - [x] 支持发送`来张乐图`触发回复糗事百科纯图文
+  - [x] 支持发送`搞笑视频`触发回复糗事百科视频
+  - [x] 支持发送`来点乐子`触发随机执行上述三者之一
+- [x] AI画图
+  - [x] 支持发送`AI画图 + 文本`触发回复基于Dalle-mini模型生成的九张图片之一
+- [x] 搜种子
+  - [x] 支持发送`搜种子 + 文本`触发回复基于btdig.com搜索种子的第一页结果在ubuntu paste里的链接
 - [ ] ……
+
+![demo](./.imgs/my-wechat-bot_demo.jpeg)
 
 ## environment token
 
-综合考虑，基于`wechaty`框架，使用`padlocal`协议，你需要自己申请一个token，然后仿照`.env.sample`写在`.env`里。
+- 基于`wechaty`框架
+- 基于`padlocal`协议（需要自己申请一个token，然后仿照`.env.sample`写在`.env`里）
 
 ## pre-run (Ubuntu as an example)
 
@@ -67,7 +81,9 @@ ts-node src/wechaty/bot.ts
 - 数据源：https://news.qq.com/zt2020/page/feiyan.htm#/area?adcode=530600
 - 数据主要接口：https://api.inews.qq.com/newsqa/v1/query/inner/publish/modules/list?modules=diseaseh5Shelf
 
-## service: 讲个笑话
+## service: 来点乐子
+
+以下是一些尽调，但都不是很满意，最后用的是 app端的糗事百科，体验尚可。
 
 - free-api.com
   - desc
@@ -83,9 +99,11 @@ ts-node src/wechaty/bot.ts
 
 ## nodejs生成图表框架选型
 
-- chart.js
+- chart.js [√]
   - install: `yarn add chart.js chartjs-node-canvas` 
   - pros
+    - 纯 node，不需要启动额外的服务
+    - 基于 canvas，可以无缝对接 MDN 有很好的定制性
   - ref
     - doc: https://www.chartjs.org/docs/latest/charts/line.html
     - how to smooth via `tension`: https://www.appsloveworld.com/chart-js-how-to-make-sharp-lines-to-smooth-curved-lines
@@ -113,25 +131,45 @@ ts-node src/wechaty/bot.ts
     - doc: https://pptr.dev/
     -** 
 
-## btdig.com 需要使用 tlsv1.2 整理
+## service: 搜种子
 
-### 法一：基于 `https`
+### btdig.com 需要基于 tslv1.2
 
-```typescript
-  secureProtocol: "TLSv1_2_method",
-  agent: new HttpsProxyAgent({
-    port: 7890,
-    host: 'localhost'
-  })
+首先必须要能翻墙，也就是基于 vpn 。
+
+> 我aws香港的服务器本身就能翻墙，但即使基于 `tslv1.2` ，还是反馈 `429 Too Many Requests`的错误，目前该服务器也是通过 vpn 翻墙从而确保 btdig.com 访问正常的；但在 mac 上就比较方便，连参数都不用加，可能是因为 mac 用的是 `libreSSL` 比较智能的原因。
+
+其次必须要使用基于 `tslv1.2` 的协议。
+
+#### curl命令
+
+```shell
+curl https://btdig.com/search\?order\=0\&q\=%E5%8F%98%E5%BD%A2%E9%87%91%E5%88%9A -H 'user-agent:Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:24.0) Gecko/20100101 Firefox/24.0' \
+--verbose --tslv1.2 --tsl-max 1.2
 ```
 
-### 法二：基于 `tunnel-agent`
+#### nodejs 中基于 `https`
 
 ```typescript
-    httpsAgent: TunnelAgent.httpsOverHttp({
-      proxy: url.parse('http://localhost:7890'),
-      maxVersion: "TLSv1.2",
-      minVersion: "TLSv1.2"
+  {
+    secureProtocol: "TLSv1_2_method",
+    agent: new HttpsProxyAgent({
+      host: 'localhost',
+      port: 7890,
     }),
-    proxy: false
+  }
+```
+
+#### nodejs 中基于 `tunnel-agent`
+
+```typescript
+  httpsAgent: TunnelAgent.httpsOverHttp({
+    proxy: {
+      host: 'localhost',
+      port: 7890,
+    },
+    maxVersion: "TLSv1.2",
+    minVersion: "TLSv1.2",
+  }),
+  proxy: false,
 ```
