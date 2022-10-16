@@ -1,5 +1,5 @@
 name: 小川微信机器人
-version: 0.4.1
+version: 0.4.2
 menu:
   regex: ^([\u4e00-\u9fa5a-zA-Z0-9]+)[\s+:：_-]*(.*)$
   domain: # overridable
@@ -9,6 +9,14 @@ menu:
       - CS魔法社V3
 #      - 中学生编程入门
   subscribes:
+    - name: CTRL_OFF
+      name_zh: 关闭服务
+      keys:
+        - 关闭服务
+        - suspend
+        - stop
+      output: 关闭服务
+
     - name: CALL_HELP
       name_zh: 请求帮助
       keys:

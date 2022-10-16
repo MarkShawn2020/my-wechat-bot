@@ -141,7 +141,7 @@ AI画图目前比较流行的是用 dalle-mini 模型 ([borisdayma/dalle-mini: D
 - 旧：https://bf.dallemini.ai/generate
 - 新：https://backend.craiyon.com/generate
 
-实测下来新的接口有繁忙拒绝风险，旧接口似乎没有这个问题，所以目前正在用这个（但刚刚访问似乎打不开了）。
+实测下来新的接口有繁忙拒绝风险，旧接口似乎没有这个问题，所以目前正在用这个。
 
 此外，他们返回的图片结果是base64，所以需要自己转换：
 1. 直接保存本地，参考： [node.js - How can I save a base64-encoded image to disk? - Stack Overflow](https://stackoverflow.com/questions/6926016/how-can-i-save-a-base64-encoded-image-to-disk) 

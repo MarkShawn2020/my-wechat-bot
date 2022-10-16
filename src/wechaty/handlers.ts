@@ -1,4 +1,13 @@
-import {FULL_BOT_NAME, REG_SUBSCRIBE, subscribeKeyInfoMap, subscribes, VALID_TRIGGERS} from "./base";
+import {
+  BOT_NAME,
+  botCtx,
+  BotStatus,
+  FULL_BOT_NAME,
+  REG_SUBSCRIBE,
+  subscribeKeyInfoMap,
+  subscribes,
+  VALID_TRIGGERS
+} from "./base";
 import {getQsbkSingleImage} from "../services/qsbk/api/getQsbkSingleImage";
 import {FileBox} from "file-box";
 import {Contact, Message, Room} from "wechaty";
@@ -24,11 +33,9 @@ export const handleCallHelp = async (toReply: ToReply, toInput: string) => {
     await toReply.say(
       [
         `== ${FULL_BOT_NAME} ==`,
-        '\n',
         '❤️目前可用服务：',
         subscribes.map((subscribe) =>
           `· ${subscribe.name_zh} (${subscribe.keys.map(getSimplePinyin).join(' | ')})`).join('\n'),
-        '\n',
         '⭐️请求调用：【服务名 + 可选参数】',
         '⭐️请求帮助：【help 服务名】',
       ].join('\n')
@@ -112,6 +119,13 @@ export const handleSearchTorrents = async (toReply: ToReply, toInput?: string) =
   await toReply.say(`查种子服务异常！`)
 }
 
+export const handleCtrlOff = async (toReply: ToReply) => {
+  botCtx.status = BotStatus.OFF
+  botCtx.stoppedTime = new Date()
+  const botRunningHours: number = (+botCtx.stoppedTime - +botCtx.startedTime) / 1000 / 60 / 60
+  await toReply.say(`已停止${BOT_NAME}，本次服务合计：${botRunningHours.toFixed(2)}小时，祝您生活愉快~`)
+}
+
 export const handleSubscribes = async (msg: Message): Promise<void> => {
   logger.info(msg.toString())
   const text = msg.text()
@@ -162,6 +176,9 @@ export const handleSubscribes = async (msg: Message): Promise<void> => {
 
         case `SEARCH_TORRENTS`:
           return handleSearchTorrents(toReply, toInput)
+
+        case `CTRL_OFF`:
+          return handleCtrlOff(toReply)
 
         default:
           logger.error(`UNEXPECTED!`)

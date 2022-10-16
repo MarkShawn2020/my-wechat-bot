@@ -32,3 +32,23 @@ console.log(wechatyConfig)
 
 export const VALID_TRIGGERS = Object.keys(subscribeKeyInfoMap)
 console.log({VALID_TRIGGERS})
+
+export enum BotStatus {
+  OFF,
+  STARTING,
+  RUNNING,
+  PAUSE,
+  ERROR,
+}
+
+export interface BotCtx {
+  status: BotStatus
+  startedTime: Date
+  stoppedTime?: Date
+}
+
+export let botCtx: BotCtx = {
+  status: BotStatus.STARTING,
+  startedTime: new Date(),
+  stoppedTime: undefined,
+}
