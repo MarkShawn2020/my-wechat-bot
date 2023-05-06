@@ -65,52 +65,52 @@ export const fetchDailyListByPlace = async (props: fetchDailyListByPlaceProps): 
     return place.msg
 
   // @ts-ignore
-  const adcode = adcordMap[place.msg]
+  // const adcode = adcordMap[place.msg]
   const res = await fetchDailyListByAdcode({adcode, limit: 30})
-  const buffer = await genChart({
-      chartConfiguration: {
-        type: "line",
-        options: {
-          plugins: {
-            title: {
-              display: true,
-              text: `新冠疫情趋势 - ${place.msg} - ${new Date().toLocaleString()}`,
-            },
-            subtitle: {
-              display: true,
-              text: `from ${FULL_BOT_NAME}`,
-              position: 'bottom',
-              align: "end",
-              font: {
-                size: 12,
-                style: "italic",
-                weight: '400',
-              }
-            }
-          }
-        },
-        data: {
-          labels: res.data.map(item => item.date),
-          datasets: [
-            // configuration interpolation ref: https://github.com/chartjs/Chart.js/blob/master/docs/samples/line/interpolation.md
-            {
-              label: '新增确诊',
-              data: res.data.map(item => item.today_confirm_add),
-              borderColor: CHART_COLORS.red,// 'red',
-              // cubicInterpolationMode: 'monotone',
-              tension: .4,
-            },
-            {
-              label: '新增无症状',
-              data: res.data.map(item => item.today_wzz_add),
-              borderColor: CHART_COLORS.blue,
-              // cubicInterpolationMode: 'monotone',
-              tension: .4,
-            }
-          ]
-        }
-      }
-    }
-  )
-  return buffer
+  // const buffer = await genChart({
+  //     chartConfiguration: {
+  //       type: "line",
+  //       options: {
+  //         plugins: {
+  //           title: {
+  //             display: true,
+  //             text: `新冠疫情趋势 - ${place.msg} - ${new Date().toLocaleString()}`,
+  //           },
+  //           subtitle: {
+  //             display: true,
+  //             text: `from ${FULL_BOT_NAME}`,
+  //             position: 'bottom',
+  //             align: "end",
+  //             font: {
+  //               size: 12,
+  //               style: "italic",
+  //               weight: '400',
+  //             }
+  //           }
+  //         }
+  //       },
+  //       data: {
+  //         labels: res.data.map(item => item.date),
+  //         datasets: [
+  //           // configuration interpolation ref: https://github.com/chartjs/Chart.js/blob/master/docs/samples/line/interpolation.md
+  //           {
+  //             label: '新增确诊',
+  //             data: res.data.map(item => item.today_confirm_add),
+  //             borderColor: CHART_COLORS.red,// 'red',
+  //             // cubicInterpolationMode: 'monotone',
+  //             tension: .4,
+  //           },
+  //           {
+  //             label: '新增无症状',
+  //             data: res.data.map(item => item.today_wzz_add),
+  //             borderColor: CHART_COLORS.blue,
+  //             // cubicInterpolationMode: 'monotone',
+  //             tension: .4,
+  //           }
+  //         ]
+  //       }
+  //     }
+  //   })
+  // return buffer
+  return '该接口由于node-canvas兼容问题已暂时下架'
 }

@@ -1,5 +1,11 @@
 # 南川微信机器人服务
 
+## init
+
+```shell
+ts-node src/wechaty/bot.ts
+```
+
 ## intro
 
 本项目提供基于微信平台的机器人服务，目前已实现：

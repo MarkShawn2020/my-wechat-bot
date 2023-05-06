@@ -9,14 +9,16 @@ import {Contact, Message, ScanStatus, WechatyBuilder} from "wechaty";
 import {PuppetPadlocal} from "wechaty-puppet-padlocal";
 import {botCtx, BotStatus, FULL_BOT_NAME} from "./base";
 import {handleSubscribes} from "./handlers";
+import { PuppetWechat4u } from 'wechaty-puppet-wechat4u'
 
 dotenv.config()
 
 const bot = WechatyBuilder.build({
-  name: FULL_BOT_NAME,
-  puppet: new PuppetPadlocal({
-    // endpoint: 'http://localhost:5555'
-  }),
+  name: `cache/${FULL_BOT_NAME}`,
+  puppet: new PuppetWechat4u(),
+  //   new PuppetPadlocal({
+  //   // endpoint: 'http://localhost:5555'
+  // }),
 })
 
 
@@ -40,7 +42,7 @@ bot
   })
 
   .on("message", async (message: Message) => {
-    console.log(`on message: ${message.toString()}`);
+    // console.log(`on message: ${message.toString()}`);
     if (botCtx.status === BotStatus.RUNNING) {
       await handleSubscribes(message)
     }

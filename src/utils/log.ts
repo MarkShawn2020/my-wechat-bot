@@ -10,6 +10,7 @@ export const logger = winston.createLogger({
     // service: 'user-service'
   },
   transports: [
+    new winston.transports.Console(),
     //
     // - Write all logs with importance level of `error` or less to `error.log`
     // - Write all logs with importance level of `info` or less to `combined.log`

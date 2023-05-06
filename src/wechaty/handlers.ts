@@ -106,6 +106,7 @@ export const handleSearchTorrents = async (toReply: ToReply, toInput?: string) =
     return
   }
   const torrentResult = await searchTorrentsViaAxios({key: toInput})
+  logger.info({torrentResult})
   if (torrentResult.status === Status.OK) {
     const ubuntuPasteResult = await setClipboard({content: yaml.dump(torrentResult, {indent: 4}), format: 'yaml'})
     if (ubuntuPasteResult.status === Status.OK) {

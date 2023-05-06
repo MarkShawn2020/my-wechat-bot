@@ -52,5 +52,6 @@ export const fetchDalle = async (props: IFetchDalleProps): Promise<IFetchDalleRe
       }
     }
   )
+  console.log(`result: `, res.data)
   return {name, ...res.data}
 }
